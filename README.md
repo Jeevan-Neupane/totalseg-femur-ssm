@@ -122,25 +122,7 @@ python main.py
 
 **Option 3:** Exit
 
-### Programmatic Usage
 
-```python
-from src import process_nifti_to_mesh
-
-# Process a single file
-mesh, reason = process_nifti_to_mesh(
-    input_path="path/to/femur_left_msk.nii.gz",
-    output_path="path/to/output.obj",
-    crop_length_mm=90,
-    skip_bad=True,
-    verbose=True
-)
-
-if mesh is None:
-    print(f"Skipped: {reason}")
-else:
-    print(f"Success! Mesh has {len(mesh.vertices)} vertices")
-```
 
 ### Measure Mesh Lengths
 
@@ -192,80 +174,37 @@ femur-mesh-processing/
 The processing pipeline consists of 10 steps:
 
 ### 1. Load NIfTI File
-```python
-from src.nifti_io import load_nifti
-volume, nifti_img = load_nifti(input_path)
-```
+Loads the segmentation mask from NIfTI format.
 
 ### 2. Reorient to LPS Standard
 Standardizes orientation regardless of scanner convention.
-```python
-from src.nifti_io import reorient_to_lps
-volume, spacing, ornt = reorient_to_lps(nifti_img)
-```
 
 ### 3. Head Border Check
 Detects if the femoral head is clipped at the superior boundary.
-```python
-from src.quality_checks import head_border_check
-ok, reason = head_border_check(volume, min_border_voxels=500)
-```
 
 ### 4. Marching Cubes
 Converts volume to triangle mesh.
-```python
-from src.mesh_operations import volume_to_mesh
-mesh = volume_to_mesh(volume, spacing, threshold=0.5)
-```
 
 ### 5. Keep Largest Component
 Removes stray fragments (patella, acetabulum, etc.).
-```python
-from src.mesh_operations import keep_largest_component
-mesh = keep_largest_component(mesh)
-```
 
 ### 6. Length Check
 Rejects bones shorter than 89.5mm.
-```python
-from src.quality_checks import mesh_length_check
-ok, reason, bone_length = mesh_length_check(mesh, min_length_mm=89.5)
-```
 
 ### 7. Compute Long Axis (PCA)
 Finds the anatomical long axis using Principal Component Analysis.
-```python
-from src.pca_alignment import compute_mesh_long_axis
-long_axis, top_point = compute_mesh_long_axis(mesh)
-```
 
 ### 8. Head Check
 Detects shaft-only bones (missing femoral head).
-```python
-from src.quality_checks import head_check
-ok, reason = head_check(mesh, long_axis)
-```
 
 ### 9. Cut Perpendicular to Axis
 Crops to 90mm from the proximal end.
-```python
-from src.mesh_operations import cut_mesh_along_axis
-mesh = cut_mesh_along_axis(mesh, long_axis, top_point, cut_length_mm=90)
-```
 
 ### 10. Waterproof Mesh
 Fills holes and ensures watertight mesh.
-```python
-from src.mesh_operations import waterproof_mesh
-mesh = waterproof_mesh(mesh)
-```
 
 ### 11. Canonical Alignment
 Aligns all meshes to the same coordinate frame.
-```python
-from src.pca_alignment import align_mesh_to_canonical_axes
-mesh = align_mesh_to_canonical_axes(mesh, long_axis)
-```
 
 ## 📁 Output Structure
 
@@ -345,26 +284,7 @@ Combined log of all files (success + skipped + failed)
 
 ## 📚 API Reference
 
-### Main Pipeline
-
-```python
-from src import process_nifti_to_mesh
-
-mesh, reason = process_nifti_to_mesh(
-    input_path,              # Path to .nii.gz file
-    output_path,             # Path to output .obj file
-    threshold=0.5,           # Marching cubes threshold
-    crop_length_mm=90.0,     # Crop length from top
-    skip_bad=True,           # Enable quality checks
-    verbose=True,            # Print progress
-    align=True,              # Apply canonical alignment
-    min_border_voxels=500    # Border check threshold
-)
-```
-
-### Individual Functions
-
-See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for detailed API documentation.
+The main pipeline function is process_nifti_to_mesh() which accepts parameters for input/output paths, marching cubes threshold, crop length, quality checks, verbosity, canonical alignment, and border check threshold.
 
 ## 🔧 Troubleshooting
 
@@ -396,12 +316,12 @@ pip install -e .
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Please:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
 5. Open a Pull Request
 
 ## 📄 License
@@ -429,7 +349,7 @@ If you use this code in your research, please cite:
 
 ## 📧 Contact
 
-For questions or issues, please open an issue on GitHub or contact [your.email@example.com](mailto:your.email@example.com).
+For questions or issues, please open an issue on GitHub or contact [jeevan.neupane003@gmail.com](mailto:jeevan.neupane003@gmail.com).
 
 ---
 
