@@ -3,8 +3,6 @@
 
 A robust Python toolkit for converting TotalSegmentator femur segmentation masks (NIfTI format) into high-quality, watertight 3D meshes ready for Statistical Shape Model (SSM) construction. Features automatic 90mm cropping, PCA-based canonical alignment, quality filtering, and watertight mesh generation.
 
-*Figure 1: Complete processing pipeline from NIfTI segmentation to aligned mesh*
-
 ## Features
 
 - **Automatic 90mm cropping** from femoral head along anatomical axis
@@ -16,9 +14,6 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 - **Comprehensive logging** CSV logs with detailed processing information
 - **Interactive CLI** user-friendly command-line interface
 - **Modular architecture** clean, maintainable code structure
-
-![Feature Highlights](path/to/features.png)
-*Figure 2: Key features - cropping, alignment, and quality filtering*
 
 ## Table of Contents
 
@@ -55,9 +50,6 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 
 Place your NIfTI files (.nii.gz) in the Femur directory with train/val/test subdirectories. Each patient folder should contain a ct-scan directory with femur_left_msk.nii.gz and femur_right_msk.nii.gz files.
 
-![Input Data Structure](path/to/input_structure.png)
-*Figure 3: Expected input directory structure*
-
 2. **Run the processing pipeline:**
 
 Execute main.py and choose from the interactive menu options.
@@ -67,9 +59,6 @@ Execute main.py and choose from the interactive menu options.
 - Option 1: Process ALL files
 - Option 2: Process custom number of files (left + right)
 - Option 3: Exit
-
-![CLI Interface](path/to/cli_interface.png)
-*Figure 4: Interactive command-line interface*
 
 ## Usage
 
@@ -107,26 +96,17 @@ The project is organized into modular components:
 
 The processing pipeline consists of 11 sequential steps:
 
-![Pipeline Steps](path/to/pipeline_steps.png)
-*Figure 5: 11-step processing pipeline*
-
 ### 1. Load NIfTI File
 Loads the segmentation mask from NIfTI format.
 
 ### 2. Reorient to LPS Standard
 Standardizes orientation to Left-Posterior-Superior regardless of scanner convention.
 
-![LPS Reorientation](path/to/lps_reorientation.png)
-*Figure 6: LPS reorientation standardizes all scans*
-
 ### 3. Head Border Check
 Detects if the femoral head is clipped at the superior boundary (>=500 voxels threshold).
 
 ### 4. Marching Cubes
 Converts binary volume to triangle mesh using marching cubes algorithm.
-
-![Marching Cubes](path/to/marching_cubes.png)
-*Figure 7: Volume to mesh conversion*
 
 ### 5. Keep Largest Component
 Removes stray fragments (patella, acetabulum, etc.) by keeping only the largest connected component.
@@ -137,26 +117,17 @@ Rejects bones shorter than 89.5mm using PCA-based length measurement.
 ### 7. Compute Long Axis (PCA)
 Finds the anatomical long axis using Principal Component Analysis.
 
-![PCA Alignment](path/to/pca_alignment.png)
-*Figure 8: PCA-based long axis computation*
-
 ### 8. Head Check
 Detects shaft-only bones (missing femoral head) by analyzing shape profile. Tip/max-top ratio must be < 0.85.
 
 ### 9. Cut Perpendicular to Axis
 Crops to exactly 90mm from the proximal end, perpendicular to the anatomical axis.
 
-![Perpendicular Cut](path/to/perpendicular_cut.png)
-*Figure 9: 90mm cropping perpendicular to bone axis*
-
 ### 10. Waterproof Mesh
 Fills holes and ensures watertight mesh suitable for SSM analysis.
 
 ### 11. Canonical Alignment
 Aligns all meshes to the same coordinate frame (+Z = head up) for consistent SSM input.
-
-![Canonical Alignment](path/to/canonical_alignment.png)
-*Figure 10: All meshes aligned to canonical coordinate frame*
 
 ## Output Structure
 
@@ -170,9 +141,6 @@ Processed meshes are organized by side with comprehensive logging:
   - failed_*.csv: Failed files with error messages
   - processing_log_*.csv: Combined log of all files
 
-![Output Structure](path/to/output_structure.png)
-*Figure 11: Output directory organization*
-
 ### Mesh Characteristics
 
 - **Cropped:** 90mm from top along anatomical axis (PCA-based)
@@ -184,15 +152,9 @@ Processed meshes are organized by side with comprehensive logging:
 - **Proper scaling:** Voxel spacing from NIfTI header is preserved
 - **Format:** Standard Wavefront OBJ format
 
-![Mesh Characteristics](path/to/mesh_characteristics.png)
-*Figure 12: Final mesh properties - cropped, aligned, and watertight*
-
-## ✅ Quality Checks
+## Quality Checks
 
 The pipeline performs three quality checks to ensure high-quality meshes for SSM:
-
-![Quality Checks](path/to/quality_checks.png)
-*Figure 13: Three quality validation checks*
 
 ### 1. Head Border Check
 - **Purpose:** Detect clipped femoral heads
@@ -214,9 +176,6 @@ The pipeline performs three quality checks to ensure high-quality meshes for SSM
 ## Logging
 
 All processing details are logged to timestamped CSV files in the logs/ directory. Each log contains comprehensive information including timestamp, file paths, status, bone length, voxel count, mesh statistics, processing time, and detailed reasons for success/skip/failure.
-
-![Logging System](path/to/logging_system.png)
-*Figure 14: Comprehensive CSV logging system*
 
 ## API Reference
 
@@ -245,7 +204,7 @@ Install all required dependencies from requirements.txt
 **5. Import errors after restructuring**
 Reinstall the package using pip install -e .
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 
@@ -255,11 +214,11 @@ Contributions are welcome! Please:
 4. Push to the branch
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📚 Citation
+## Citation
 
 If you use this code in your research, please cite:
 
@@ -272,13 +231,13 @@ If you use this code in your research, please cite:
   url = {https://github.com/yourusername/totalseg-femur-ssm}
 }
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Marching cubes implementation from [scikit-image](https://scikit-image.org/)
 - Mesh repair using [PyMeshFix](https://github.com/pyvista/pymeshfix)
 - Medical imaging I/O with [NiBabel](https://nipy.org/nibabel/)
 
-## 📧 Contact
+## Contact
 
 For questions or issues, please open an issue on GitHub or contact [jeevan.neupane003@gmail.com](mailto:jeevan.neupane003@gmail.com).
 
