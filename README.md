@@ -3,10 +3,9 @@
 
 A robust Python toolkit for converting TotalSegmentator femur segmentation masks (NIfTI format) into high-quality, watertight 3D meshes ready for Statistical Shape Model (SSM) construction. Features automatic 90mm cropping, PCA-based canonical alignment, quality filtering, and watertight mesh generation.
 
-![Pipeline Overview](path/to/pipeline_overview.png)
 *Figure 1: Complete processing pipeline from NIfTI segmentation to aligned mesh*
 
-## 🎯 Features
+## Features
 
 - ✅ **Automatic 90mm cropping** from femoral head along anatomical axis
 - ✅ **PCA-based alignment** ensures straight cuts regardless of CT orientation
@@ -21,7 +20,7 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 ![Feature Highlights](path/to/features.png)
 *Figure 2: Key features - cropping, alignment, and quality filtering*
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
@@ -37,7 +36,7 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 - [License](#license)
 - [Citation](#citation)
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -50,7 +49,7 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 2. Create a virtual environment (recommended)
 3. Install dependencies using requirements.txt or install as a package
 
-## ⚡ Quick Start
+## Quick Start
 
 1. **Prepare your data:**
 
@@ -72,7 +71,7 @@ Execute main.py and choose from the interactive menu options.
 ![CLI Interface](path/to/cli_interface.png)
 *Figure 4: Interactive command-line interface*
 
-## 📖 Usage
+## Usage
 
 ### Interactive CLI
 
@@ -88,7 +87,7 @@ The main script provides an interactive menu with three options for processing f
 
 Use measure_all.py to measure all processed meshes in a directory.
 
-## 📁 Project Structure
+## Project Structure
 
 The project is organized into modular components:
 
@@ -104,7 +103,7 @@ The project is organized into modular components:
 - **requirements.txt**: Python dependencies
 - **setup.py**: Package installation script
 
-## 🔄 Pipeline Overview
+## Pipeline Overview
 
 The processing pipeline consists of 11 sequential steps:
 
@@ -188,7 +187,7 @@ Processed meshes are organized by side with comprehensive logging:
 ![Mesh Characteristics](path/to/mesh_characteristics.png)
 *Figure 12: Final mesh properties - cropped, aligned, and watertight*
 
-## ✅ Quality Checks
+## ✅Quality Checks
 
 The pipeline performs three quality checks to ensure high-quality meshes for SSM:
 
@@ -249,19 +248,13 @@ Reinstall the package using pip install -e .
 
 
 
-## 📚 Citation
+## Citation
 
 If you use this code in your research, please cite:
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Marching cubes implementation from [scikit-image](https://scikit-image.org/)
 - Mesh repair using [PyMeshFix](https://github.com/pyvista/pymeshfix)
 - Medical imaging I/O with [NiBabel](https://nipy.org/nibabel/)
-
-## 📧 Contact
-
-For questions or issues, please open an issue on GitHub or contact [jeevan.neupane003@gmail.com](mailto:jeevan.neupane003@gmail.com).
-
----
 
