@@ -1,7 +1,5 @@
 # Femur Mesh Processing Pipeline
 
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A robust Python toolkit for converting TotalSegmentator femur segmentation masks (NIfTI format) into high-quality, watertight 3D meshes ready for Statistical Shape Model (SSM) construction. Features automatic 90mm cropping, PCA-based canonical alignment, quality filtering, and watertight mesh generation.
 
@@ -248,32 +246,12 @@ Install all required dependencies from requirements.txt
 **5. Import errors after restructuring**
 Reinstall the package using pip install -e .
 
-## 🤝 Contributing
 
-Contributions are welcome! Please:
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 📚 Citation
 
 If you use this code in your research, please cite:
-
-**BibTeX format:**
-
-@software{totalseg_femur_ssm,
-  author = {Jeevan Neupane},
-  title = {TotalSegmentator Femur SSM Preprocessing Pipeline},
-  year = {2024},
-  url = {https://github.com/yourusername/totalseg-femur-ssm}
-}
 
 ## 🙏 Acknowledgments
 
