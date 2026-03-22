@@ -3,7 +3,10 @@
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A robust Python toolkit for converting femur segmentation masks (NIfTI format) into high-quality, watertight 3D meshes with automatic cropping, quality filtering, and left/right separation.
+A robust Python toolkit for converting TotalSegmentator femur segmentation masks (NIfTI format) into high-quality, watertight 3D meshes ready for Statistical Shape Model (SSM) construction. Features automatic 90mm cropping, PCA-based canonical alignment, quality filtering, and watertight mesh generation.
+
+![Pipeline Overview](path/to/pipeline_overview.png)
+*Figure 1: Complete processing pipeline from NIfTI segmentation to aligned mesh*
 
 ## 🎯 Features
 
@@ -16,6 +19,9 @@ A robust Python toolkit for converting femur segmentation masks (NIfTI format) i
 - ✅ **Comprehensive logging** CSV logs with detailed processing information
 - ✅ **Interactive CLI** user-friendly command-line interface
 - ✅ **Modular architecture** clean, maintainable code structure
+
+![Feature Highlights](path/to/features.png)
+*Figure 2: Key features - cropping, alignment, and quality filtering*
 
 ## 📋 Table of Contents
 
@@ -42,188 +48,133 @@ A robust Python toolkit for converting femur segmentation masks (NIfTI format) i
 
 ### Setup
 
-1. **Clone the repository:**
-
-```bash
-git clone https://github.com/yourusername/femur-mesh-processing.git
-cd femur-mesh-processing
-```
-
-2. **Create a virtual environment (recommended):**
-
-```bash
-python -m venv venv
-
-# On Windows:
-venv\Scripts\activate
-
-# On Linux/Mac:
-source venv/bin/activate
-```
-
-3. **Install dependencies:**
-
-```bash
-pip install -r requirements.txt
-```
-
-Or install as a package:
-
-```bash
-pip install -e .
-```
+1. Clone the repository
+2. Create a virtual environment (recommended)
+3. Install dependencies using requirements.txt or install as a package
 
 ## ⚡ Quick Start
 
 1. **Prepare your data:**
 
-Place your NIfTI files (`.nii.gz`) in the following structure:
+Place your NIfTI files (.nii.gz) in the Femur directory with train/val/test subdirectories. Each patient folder should contain a ct-scan directory with femur_left_msk.nii.gz and femur_right_msk.nii.gz files.
 
-```
-Femur/
-├── train/
-│   ├── p_0001/
-│   │   └── ct-scan/
-│   │       ├── femur_left_msk.nii.gz
-│   │       └── femur_right_msk.nii.gz
-│   └── ...
-├── val/
-└── test/
-```
+![Input Data Structure](path/to/input_structure.png)
+*Figure 3: Expected input directory structure*
 
 2. **Run the processing pipeline:**
 
-```bash
-python main.py
-```
+Execute main.py and choose from the interactive menu options.
 
 3. **Choose your option:**
 
-```
-Options:
-  1. Process ALL files
-  2. Process custom number of files (left + right)
-  3. Exit
-```
+- Option 1: Process ALL files
+- Option 2: Process custom number of files (left + right)
+- Option 3: Exit
+
+![CLI Interface](path/to/cli_interface.png)
+*Figure 4: Interactive command-line interface*
 
 ## 📖 Usage
 
 ### Interactive CLI
 
-The main script provides an interactive menu:
+The main script provides an interactive menu with three options for processing files.
 
-```bash
-python main.py
-```
+**Option 1:** Process all files → Output: Femur_Meshes_90mm/
 
-**Option 1:** Process all files → Output: `Femur_Meshes_90mm/`
-
-**Option 2:** Process custom number (e.g., 10 per side) → Output: `output_10_per_side/`
+**Option 2:** Process custom number (e.g., 10 per side) → Output: output_10_per_side/
 
 **Option 3:** Exit
 
-
-
 ### Measure Mesh Lengths
 
-Measure all processed meshes:
-
-```bash
-python measure_all.py [directory]
-```
-
-Example:
-```bash
-python measure_all.py Femur_Meshes_90mm
-```
+Use measure_all.py to measure all processed meshes in a directory.
 
 ## 📁 Project Structure
 
-```
-femur-mesh-processing/
-├── src/                        # Source code package
-│   ├── __init__.py            # Package initialization & exports
-│   ├── nifti_io.py            # NIfTI file I/O operations
-│   ├── quality_checks.py      # Quality validation functions
-│   ├── mesh_operations.py     # Mesh processing operations
-│   ├── pca_alignment.py       # PCA-based alignment
-│   ├── pipeline.py            # Main processing pipeline
-│   └── logger.py              # Logging utilities
-├── main.py                     # Interactive CLI entry point
-├── measure_all.py              # Utility to measure mesh lengths
-├── requirements.txt            # Python dependencies
-├── setup.py                    # Package installation script
-├── README.md                   # Main documentation
-├── CONTRIBUTING.md             # Contribution guidelines
-├── PROJECT_STRUCTURE.md        # Detailed structure documentation
-├── LICENSE                     # MIT License
-└── .gitignore                  # Git ignore rules
-```
+The project is organized into modular components:
 
-### Module Descriptions
-
-- **nifti_io.py**: NIfTI file loading and LPS reorientation
-- **quality_checks.py**: Head border check, length check, head presence check
-- **mesh_operations.py**: Marching cubes, component filtering, waterproofing, cutting
-- **pca_alignment.py**: Long axis computation and canonical alignment
-- **pipeline.py**: Complete end-to-end processing pipeline
-- **logger.py**: Comprehensive CSV logging system
+- **src/**: Source code package containing all modules
+  - **nifti_io.py**: NIfTI file I/O operations and LPS reorientation
+  - **quality_checks.py**: Head border check, length check, head presence check
+  - **mesh_operations.py**: Marching cubes, component filtering, waterproofing, cutting
+  - **pca_alignment.py**: Long axis computation and canonical alignment
+  - **pipeline.py**: Complete end-to-end processing pipeline
+  - **logger.py**: Comprehensive CSV logging system
+- **main.py**: Interactive CLI entry point
+- **measure_all.py**: Utility to measure mesh lengths
+- **requirements.txt**: Python dependencies
+- **setup.py**: Package installation script
 
 ## 🔄 Pipeline Overview
 
-The processing pipeline consists of 10 steps:
+The processing pipeline consists of 11 sequential steps:
+
+![Pipeline Steps](path/to/pipeline_steps.png)
+*Figure 5: 11-step processing pipeline*
 
 ### 1. Load NIfTI File
 Loads the segmentation mask from NIfTI format.
 
 ### 2. Reorient to LPS Standard
-Standardizes orientation regardless of scanner convention.
+Standardizes orientation to Left-Posterior-Superior regardless of scanner convention.
+
+![LPS Reorientation](path/to/lps_reorientation.png)
+*Figure 6: LPS reorientation standardizes all scans*
 
 ### 3. Head Border Check
-Detects if the femoral head is clipped at the superior boundary.
+Detects if the femoral head is clipped at the superior boundary (>=500 voxels threshold).
 
 ### 4. Marching Cubes
-Converts volume to triangle mesh.
+Converts binary volume to triangle mesh using marching cubes algorithm.
+
+![Marching Cubes](path/to/marching_cubes.png)
+*Figure 7: Volume to mesh conversion*
 
 ### 5. Keep Largest Component
-Removes stray fragments (patella, acetabulum, etc.).
+Removes stray fragments (patella, acetabulum, etc.) by keeping only the largest connected component.
 
 ### 6. Length Check
-Rejects bones shorter than 89.5mm.
+Rejects bones shorter than 89.5mm using PCA-based length measurement.
 
 ### 7. Compute Long Axis (PCA)
 Finds the anatomical long axis using Principal Component Analysis.
 
+![PCA Alignment](path/to/pca_alignment.png)
+*Figure 8: PCA-based long axis computation*
+
 ### 8. Head Check
-Detects shaft-only bones (missing femoral head).
+Detects shaft-only bones (missing femoral head) by analyzing shape profile. Tip/max-top ratio must be < 0.85.
 
 ### 9. Cut Perpendicular to Axis
-Crops to 90mm from the proximal end.
+Crops to exactly 90mm from the proximal end, perpendicular to the anatomical axis.
+
+![Perpendicular Cut](path/to/perpendicular_cut.png)
+*Figure 9: 90mm cropping perpendicular to bone axis*
 
 ### 10. Waterproof Mesh
-Fills holes and ensures watertight mesh.
+Fills holes and ensures watertight mesh suitable for SSM analysis.
 
 ### 11. Canonical Alignment
-Aligns all meshes to the same coordinate frame.
+Aligns all meshes to the same coordinate frame (+Z = head up) for consistent SSM input.
+
+![Canonical Alignment](path/to/canonical_alignment.png)
+*Figure 10: All meshes aligned to canonical coordinate frame*
 
 ## 📁 Output Structure
 
-```
-Femur_Meshes_90mm/
-├── left/
-│   ├── femur_001.obj
-│   ├── femur_002.obj
-│   └── ...
-├── right/
-│   ├── femur_001.obj
-│   ├── femur_002.obj
-│   └── ...
-└── logs/
-    ├── success_20240115_103045.csv
-    ├── skipped_20240115_103045.csv
-    ├── failed_20240115_103045.csv
-    └── processing_log_20240115_103045.csv
-```
+Processed meshes are organized by side with comprehensive logging:
+
+- **left/**: Left femur meshes (femur_001.obj, femur_002.obj, ...)
+- **right/**: Right femur meshes (femur_001.obj, femur_002.obj, ...)
+- **logs/**: CSV logs with timestamps
+  - success_*.csv: Successfully processed files
+  - skipped_*.csv: Skipped files with reasons
+  - failed_*.csv: Failed files with error messages
+  - processing_log_*.csv: Combined log of all files
+
+![Output Structure](path/to/output_structure.png)
+*Figure 11: Output directory organization*
 
 ### Mesh Characteristics
 
@@ -236,19 +187,25 @@ Femur_Meshes_90mm/
 - **Proper scaling:** Voxel spacing from NIfTI header is preserved
 - **Format:** Standard Wavefront OBJ format
 
+![Mesh Characteristics](path/to/mesh_characteristics.png)
+*Figure 12: Final mesh properties - cropped, aligned, and watertight*
+
 ## ✅ Quality Checks
 
-The pipeline performs three quality checks:
+The pipeline performs three quality checks to ensure high-quality meshes for SSM:
+
+![Quality Checks](path/to/quality_checks.png)
+*Figure 13: Three quality validation checks*
 
 ### 1. Head Border Check
 - **Purpose:** Detect clipped femoral heads
-- **Method:** Checks if ≥500 voxels touch the superior boundary
+- **Method:** Checks if >=500 voxels touch the superior boundary
 - **Action:** Skip if clipped
 
 ### 2. Length Check
 - **Purpose:** Ensure sufficient bone length
 - **Method:** PCA-based length measurement
-- **Threshold:** ≥89.5mm
+- **Threshold:** >=89.5mm
 - **Action:** Skip if too short
 
 ### 3. Head Check
@@ -259,28 +216,10 @@ The pipeline performs three quality checks:
 
 ## 📊 Logging
 
-All processing details are logged to CSV files in the `logs/` directory:
+All processing details are logged to timestamped CSV files in the logs/ directory. Each log contains comprehensive information including timestamp, file paths, status, bone length, voxel count, mesh statistics, processing time, and detailed reasons for success/skip/failure.
 
-### success_*.csv
-```csv
-timestamp,input_file,output_file,status,bone_length_mm,voxel_count,vertices,faces,processing_time_sec,reason
-2024-01-15 10:30:45,path/to/input.nii.gz,path/to/output.obj,SUCCESS,92.34,125000,15234,30468,4.52,Processed successfully
-```
-
-### skipped_*.csv
-```csv
-timestamp,input_file,output_file,status,bone_length_mm,voxel_count,border_voxels,head_ratio,processing_time_sec,reason
-2024-01-15 10:31:12,path/to/input.nii.gz,N/A,SKIPPED,85.3,98000,N/A,N/A,N/A,bone too short (85.3 mm < 90 mm)
-```
-
-### failed_*.csv
-```csv
-timestamp,input_file,output_file,status,bone_length_mm,voxel_count,processing_time_sec,reason
-2024-01-15 10:32:05,path/to/input.nii.gz,N/A,FAILED,N/A,N/A,N/A,Error: File corrupted
-```
-
-### processing_log_*.csv
-Combined log of all files (success + skipped + failed)
+![Logging System](path/to/logging_system.png)
+*Figure 14: Comprehensive CSV logging system*
 
 ## 📚 API Reference
 
@@ -291,12 +230,10 @@ The main pipeline function is process_nifti_to_mesh() which accepts parameters f
 ### Common Issues
 
 **1. ImportError: No module named 'nibabel'**
-```bash
-pip install -r requirements.txt
-```
+Install all required dependencies from requirements.txt
 
 **2. File not found errors**
-- Check that your data is in the `Femur/` directory
+- Check that your data is in the Femur/ directory
 - Verify the folder structure matches the expected format
 
 **3. Memory errors with large files**
@@ -305,14 +242,11 @@ pip install -r requirements.txt
 
 **4. Too many bones being skipped**
 - Check skip reasons in the logs
-- Adjust `min_border_voxels` parameter if needed (default: 500)
+- Adjust min_border_voxels parameter if needed (default: 500)
 - Common reasons: bone too short (<89.5mm), femoral head clipped, head missing
 
 **5. Import errors after restructuring**
-```bash
-# Reinstall the package
-pip install -e .
-```
+Reinstall the package using pip install -e .
 
 ## 🤝 Contributing
 
@@ -332,14 +266,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you use this code in your research, please cite:
 
-```bibtex
-@software{femur_mesh_processing,
-  author = {Your Name},
-  title = {Femur Mesh Processing Pipeline},
+**BibTeX format:**
+
+@software{totalseg_femur_ssm,
+  author = {Jeevan Neupane},
+  title = {TotalSegmentator Femur SSM Preprocessing Pipeline},
   year = {2024},
-  url = {https://github.com/yourusername/femur-mesh-processing}
+  url = {https://github.com/yourusername/totalseg-femur-ssm}
 }
-```
 
 ## 🙏 Acknowledgments
 

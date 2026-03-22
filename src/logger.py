@@ -128,11 +128,27 @@ class ProcessLogger:
         if not records:
             return
         
+        # Collect all unique fieldnames from all records
+        all_fieldnames = set()
+        for record in records:
+            all_fieldnames.update(record.keys())
+        
+        # Define preferred field order
+        preferred_order = ['timestamp', 'input_file', 'output_file', 'status', 
+                          'bone_length_mm', 'voxel_count', 'border_voxels', 'head_ratio',
+                          'vertices', 'faces', 'processing_time_sec', 'reason']
+        
+        # Order fieldnames: preferred first, then any extras
+        fieldnames = [f for f in preferred_order if f in all_fieldnames]
+        fieldnames.extend([f for f in all_fieldnames if f not in preferred_order])
+        
         with open(path, 'w', newline='', encoding='utf-8') as f:
-            fieldnames = records[0].keys()
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction='ignore')
             writer.writeheader()
-            writer.writerows(records)
+            # Fill missing fields with 'N/A'
+            for record in records:
+                row = {field: record.get(field, 'N/A') for field in fieldnames}
+                writer.writerow(row)
     
     def get_counts(self):
         """Get counts of success, skipped, and failed."""

@@ -10,8 +10,8 @@ from pathlib import Path
 from tqdm import tqdm
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-from pipeline import process_nifti_to_mesh
-from logger import ProcessLogger
+from src.pipeline import process_nifti_to_mesh
+from src.logger import ProcessLogger
 
 
 def get_user_choice():
