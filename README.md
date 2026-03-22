@@ -24,12 +24,7 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 - [Pipeline Overview](#pipeline-overview)
 - [Output Structure](#output-structure)
 - [Quality Checks](#quality-checks)
-- [Logging](#logging)
-- [API Reference](#api-reference)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
 - [License](#license)
-- [Citation](#citation)
 
 ## Installation
 
@@ -173,73 +168,9 @@ The pipeline performs three quality checks to ensure high-quality meshes for SSM
 - **Metric:** Tip/max-top ratio < 0.85
 - **Action:** Skip if head missing
 
-## Logging
-
-All processing details are logged to timestamped CSV files in the logs/ directory. Each log contains comprehensive information including timestamp, file paths, status, bone length, voxel count, mesh statistics, processing time, and detailed reasons for success/skip/failure.
-
-## API Reference
-
-The main pipeline function is process_nifti_to_mesh() which accepts parameters for input/output paths, marching cubes threshold, crop length, quality checks, verbosity, canonical alignment, and border check threshold.
-
-## Troubleshooting
-
-### Common Issues
-
-**1. ImportError: No module named 'nibabel'**
-Install all required dependencies from requirements.txt
-
-**2. File not found errors**
-- Check that your data is in the Femur/ directory
-- Verify the folder structure matches the expected format
-
-**3. Memory errors with large files**
-- The 90mm cropping reduces memory usage significantly
-- Process files in smaller batches using Option 2
-
-**4. Too many bones being skipped**
-- Check skip reasons in the logs
-- Adjust min_border_voxels parameter if needed (default: 500)
-- Common reasons: bone too short (<89.5mm), femoral head clipped, head missing
-
-**5. Import errors after restructuring**
-Reinstall the package using pip install -e .
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Citation
-
-If you use this code in your research, please cite:
-
-**BibTeX format:**
-
-@software{totalseg_femur_ssm,
-  author = {Jeevan Neupane},
-  title = {TotalSegmentator Femur SSM Preprocessing Pipeline},
-  year = {2024},
-  url = {https://github.com/yourusername/totalseg-femur-ssm}
-}
-
-## Acknowledgments
-
-- Marching cubes implementation from [scikit-image](https://scikit-image.org/)
-- Mesh repair using [PyMeshFix](https://github.com/pyvista/pymeshfix)
-- Medical imaging I/O with [NiBabel](https://nipy.org/nibabel/)
-
-## Contact
-
-For questions or issues, please open an issue on GitHub or contact [jeevan.neupane003@gmail.com](mailto:jeevan.neupane003@gmail.com).
 
 ---
 
