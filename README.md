@@ -7,15 +7,15 @@ A robust Python toolkit for converting TotalSegmentator femur segmentation masks
 
 ## Features
 
-- ✅ **Automatic 90mm cropping** from femoral head along anatomical axis
-- ✅ **PCA-based alignment** ensures straight cuts regardless of CT orientation
-- ✅ **LPS reorientation** standardizes all scans (Left-Posterior-Superior)
-- ✅ **Quality filtering** rejects bones with clipped heads or insufficient length
-- ✅ **Canonical alignment** all output meshes share the same coordinate frame
-- ✅ **Watertight meshes** automatic hole filling and mesh repair
-- ✅ **Comprehensive logging** CSV logs with detailed processing information
-- ✅ **Interactive CLI** user-friendly command-line interface
-- ✅ **Modular architecture** clean, maintainable code structure
+- **Automatic 90mm cropping** from femoral head along anatomical axis
+- **PCA-based alignment** ensures straight cuts regardless of CT orientation
+- **LPS reorientation** standardizes all scans (Left-Posterior-Superior)
+- **Quality filtering** rejects bones with clipped heads or insufficient length
+- **Canonical alignment** all output meshes share the same coordinate frame
+- **Watertight meshes** automatic hole filling and mesh repair
+- **Comprehensive logging** CSV logs with detailed processing information
+- **Interactive CLI** user-friendly command-line interface
+- **Modular architecture** clean, maintainable code structure
 
 ![Feature Highlights](path/to/features.png)
 *Figure 2: Key features - cropping, alignment, and quality filtering*
@@ -158,7 +158,7 @@ Aligns all meshes to the same coordinate frame (+Z = head up) for consistent SSM
 ![Canonical Alignment](path/to/canonical_alignment.png)
 *Figure 10: All meshes aligned to canonical coordinate frame*
 
-## 📁 Output Structure
+## Output Structure
 
 Processed meshes are organized by side with comprehensive logging:
 
@@ -187,7 +187,7 @@ Processed meshes are organized by side with comprehensive logging:
 ![Mesh Characteristics](path/to/mesh_characteristics.png)
 *Figure 12: Final mesh properties - cropped, aligned, and watertight*
 
-## ✅Quality Checks
+## ✅ Quality Checks
 
 The pipeline performs three quality checks to ensure high-quality meshes for SSM:
 
@@ -211,18 +211,18 @@ The pipeline performs three quality checks to ensure high-quality meshes for SSM
 - **Metric:** Tip/max-top ratio < 0.85
 - **Action:** Skip if head missing
 
-## 📊 Logging
+## Logging
 
 All processing details are logged to timestamped CSV files in the logs/ directory. Each log contains comprehensive information including timestamp, file paths, status, bone length, voxel count, mesh statistics, processing time, and detailed reasons for success/skip/failure.
 
 ![Logging System](path/to/logging_system.png)
 *Figure 14: Comprehensive CSV logging system*
 
-## 📚 API Reference
+## API Reference
 
 The main pipeline function is process_nifti_to_mesh() which accepts parameters for input/output paths, marching cubes threshold, crop length, quality checks, verbosity, canonical alignment, and border check threshold.
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -245,16 +245,42 @@ Install all required dependencies from requirements.txt
 **5. Import errors after restructuring**
 Reinstall the package using pip install -e .
 
+## 🤝 Contributing
 
+Contributions are welcome! Please:
 
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-## Citation
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📚 Citation
 
 If you use this code in your research, please cite:
 
-##  Acknowledgments
+**BibTeX format:**
+
+@software{totalseg_femur_ssm,
+  author = {Jeevan Neupane},
+  title = {TotalSegmentator Femur SSM Preprocessing Pipeline},
+  year = {2024},
+  url = {https://github.com/yourusername/totalseg-femur-ssm}
+}
+
+## 🙏 Acknowledgments
 
 - Marching cubes implementation from [scikit-image](https://scikit-image.org/)
 - Mesh repair using [PyMeshFix](https://github.com/pyvista/pymeshfix)
 - Medical imaging I/O with [NiBabel](https://nipy.org/nibabel/)
+
+## 📧 Contact
+
+For questions or issues, please open an issue on GitHub or contact [jeevan.neupane003@gmail.com](mailto:jeevan.neupane003@gmail.com).
+
+---
 
